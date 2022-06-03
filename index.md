@@ -1,4 +1,11 @@
-## Welcome to GitHub Pages
+## Data integration based on time stamp using SSIS
+
+To performing a data integration process between two database systems, there will be two methods to do this:
+The first method is to do a full data integrastion. Thats means the whole data in database A will be copied and send to database B. Normally, thiis kind of integration process is used for one time only at themost first database integration process.
+
+The second method is a partial data intefgration thats operate between two database systems depending on a condition. However, in this method, only a pointed records inside the database A will be integrated with database B. As an example, the daily fingerprint records for the time attendance system thats required to integrate the daily records only. These daily records can be assigned by the system regarding one of these factors:
+
+The first factor is
 
 You can use the [editor on GitHub](https://github.com/mbmasadeh/TimeStampDataMigration/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
