@@ -69,21 +69,28 @@ For Oracle connection
   Select "Oracle conection Manager", and write down the connection name, tns service name, username and password, then finally test the connection and click "OK".
   
 The work area
-  Drag and drop "Source assistant". This one is for fetching the data form SQL Server table.
-  Select the connection manager thats you created before, is SQl server connection.
-  Click Ok, then double click on the new created box in the working area.
-  From Data access mode select "SQl command"
-  Add this SQl statment in the Sql command area.
-  " SELECT *
-    FROM 
-    source_tbl
-    where
-   actiondate > (select top(1) LastAction from dailyLogs order by CreatedDate desc)
-    order by  
-    actiondate desc "
+   Drag and drop "Source assistant". This one is for fetching the data form SQL Server table.
+  	Select the connection manager thats you created before, is SQl server connection.
+  	Click Ok, then double click on the new created box in the working area.
+  	From Data access mode select "SQl command"
+  	Add this SQl statment in the Sql command area.
+  	" SELECT *
+    	FROM 
+    	source_tbl
+    	where
+   	actiondate > (select top(1) LastAction from dailyLogs order by CreatedDate desc)
+    	order by  
+    	actiondate desc "
    
-   The select statement aboce will select all the columns in the "source_tbl"  
-  
+   	The select statement aboce will select all the columns in the "source_tbl" thats the timestamp is greater than the on in table dailylogs.
+
+   Drag and drop "Oracle destination" from the "SSIS Toolbox" side menu, and open it.
+   	Select the connection from the "Oracle connection manager", the oracle connection thats you did it before.
+	Select the table name.
+	Don forget to match a line between "Source assistance" and "Oracle destination' in order of correct the mapping between the tables.
+	
+Now everything is done, lets go back to the "Control view" in the upper left menu.
+
   
   
   
