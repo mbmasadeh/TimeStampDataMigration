@@ -89,7 +89,31 @@ The work area
 	Select the table name.
 	Don forget to match a line between "Source assistance" and "Oracle destination' in order of correct the mapping between the tables.
 	
-Now everything is done, lets go back to the "Control view" in the upper left menu.
+Now everything is done, lets go back to the "Control view", we need to create a variable.
+The aim of this variable is to hold a value between "SQL Tasks"
+In the "Variables menu" select "Add variable"
+	Name: LatestDaily
+	Scope: Pakage1 "Remember, the variable is running on the top of the bacjege only, not the whole project".
+	Data type: Datetime
+	Value: current day
+
+   Drage and drop "Execute SQL task" from "SSIS Toolbox" and open it.
+   Set the "Connection Type" to be "OLEDB"
+   Select the SQL server connection thats you created before.
+   In the "SQLStatement" paste this command
+   "select top(1) [TA_Timestamp]
+  FROM 
+  [TBS_BAWSE].[dbo].[TBST_TARecords]
+  where 
+   cast(TA_Timestamp as Date) = cast(getdate() as Date)
+   and
+  [TA_UserID] is not null
+  and
+  [TA_UserID]  not like '%[^0-9]%'
+  order by  
+  [TA_Timestamp] desc"
+   
+
 
   
   
