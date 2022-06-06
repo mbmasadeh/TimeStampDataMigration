@@ -98,20 +98,62 @@ In the "Variables menu" select "Add variable"
 	Value: current day
 
    Drage and drop "Execute SQL task" from "SSIS Toolbox" and open it.
-   Set the "Connection Type" to be "OLEDB"
-   Select the SQL server connection thats you created before.
+   Set the "ResultSet" to "Single row"
+   Set the "Connection Type" to be "OLEDB".  
+   Set the "Connection" o be the SQL server connection you created before.
    In the "SQLStatement" paste this command
-   "select top(1) [TA_Timestamp]
-  FROM 
-  [TBS_BAWSE].[dbo].[TBST_TARecords]
-  where 
-   cast(TA_Timestamp as Date) = cast(getdate() as Date)
-   and
-  [TA_UserID] is not null
-  and
-  [TA_UserID]  not like '%[^0-9]%'
-  order by  
-  [TA_Timestamp] desc"
+   "select top(1) actiondate
+   FROM
+   source_tbl
+   order by actiondate desc"
+   
+   Click "OK"
+   
+   From the left side menu click on "Result Set"
+   Click on "Add".
+   Set the "Result Name" to 0 and Variable Name to the variable thats you created before is "LatestDaily", then click "OK"
+   
+   The aim of the "Execure SQL task" above is to select the latest record in the source table and set the single result to the variable.
+   
+   One last thing thats we need is to create another "Execute SQL Task1", drag, drop and open it.
+   Set the "ResultSet" to None
+   Set the "ConnectionType" to OLEDB
+   Set the "Connection" to sql connection that you created before.
+   In the SQL statement, add the comand:
+   "insert into dailyLogs
+   values
+   (?,getdate());"
+   
+   Click "OK"
+   
+   On the left side menu, click on "Parameter Mapping"
+   Click on "Add"
+   set the variable Name to the same variable you created before is "LatestDaily"
+   Direction to Input
+   Datatype to DATE
+   ant the rest to 0.
+   Click "OK" 
+   
+
+Now you have a three actions thats must connected to each other, the first one is the Data flow task, the second one is execute SQL task and the third one is execute SQL1.
+
+The scenarion will run as follow
+- The system will gather all data in source_tbl thats are greater than the very last record in dailyLogs table.
+- The new data will find it way to the destination table.
+- Then, in execute SQL task, the system will read the last enterd record in source_tbl and save the result in "LatestDaily" variable.
+- The last step is running Execute SQL task1 to save the value in the dailylogs table
+- The new value in the DailyLogs table will be the latest value for the next data integration job.
+
+Thats all
+Mohad Masadeh
+   
+   
+   
+  
+   
+   ID int identity(1,1) primary key, //Its not required to be a primary key in all tables.
+  textclm nvarchar(30) not null,
+  actiondate datetime not null
    
 
 
